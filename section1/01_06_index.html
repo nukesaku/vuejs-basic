@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+  <!-- リアルDOM 
+  JSがつながっているかどうかわからない-->
+  <a id="google_link">googleへのリンク</a>
+
+  <div id="app"> <!-- 仮想DOM-->
+    {{ message }} 
+    <!-- <a href="{{ google }}">googleへのリンク</a> こっちはダメ -->
+    <!-- <a v-bind:href="google">googleへのリンク</a> -->
+    <a :href="google">googleへのリンク</a>
+
+    <br>
+    オブジェクト.キー
+    <a :href="book.url">{{ book.title }}</a>
+    <br>
+    <input v-bind="{name:formInput.name, placeholder:formInput.placeholder}">
+    <br>
+    <input v-bind="formInput">
+  </div>
+  
+  <script>
+    let app = new Vue({
+      el: '#app', // 仮想DOM
+      // data: {
+      //   message: 'Hello Vue!'
+      //},
+      //data: function (){}
+      data(){ //ES6だと function を省略できる
+        return {
+          message: 'Hello Vue!', //キー(key):値(value)
+          google: 'https://google.com',
+          book: {
+            title: '本のタイトル',
+            url: 'https://google.com'
+          },
+        }
+      }
+    })
+
+    const html = document.querySelector('html');
+    console.dir(html);
+    console.dir(app); // 仮装DOMの中身を確認
+
+    //直接DOM操作
+    //idを指定(idが変わればコード変更必要)
+    const googleLink = document.getElementById('google_link');
+    googleLink.href = 'https://google.com';
+  </script>
+</body>
+</html>
