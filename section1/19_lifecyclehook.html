@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+<div id="app"></div>  
+
+<script>
+  // https://v2.ja.vuejs.org/v2/guide/instance.html#ライフサイクルダイアグラム
+  // https://v2.ja.vuejs.org/v2/api/#オプション-ライフサイクルフック
+  let app = new Vue({
+    el: '#app',
+    data(){
+      return {
+        test: 'あああ'
+      }
+    },
+    // created: reactivity initの後、つまりdataが生成された後に実行
+    // └ data生成のタイミング（非同期通信でデータ取得したい場合）
+    created(){
+      console.log('created') // => created
+      console.log(this.$el) // => undefined
+      console.log(this.test) // => あああ
+    },
+    // mounted: $elが置き換えられた後、つまり仮想DOMの#appが置き換えられた後に実行
+    // └ DOM生成のタイミング(mounted後で)
+    // └ ただし、全ての子コンポーネントもマウントされていることを保証しない
+    // 　└ なので、子コンポーネントのDOMにアクセスする場合は、$nextTickを使う
+    /* 例
+     * mounted(){
+     *  this.$nextTick(function(){ <= つまり document.addEventListener('DOMContentLoaded', function(){ と同じ
+     *   // ビュー全体がレンダリングされた後にのみ実行されるコード
+     * })
+     */
+    mounted(){
+      console.log('mounted') // => mounted
+      console.log(this.$el) // => <div id="app"></div>
+    }
+  })
+</script>
+</body>
+</html>

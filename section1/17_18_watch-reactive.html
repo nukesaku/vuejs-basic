@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+
+  <div id="app"><!-- 仮想DOM -->
+    {{ totalPriceMethods() }}
+    {{ totalPriceMethods() }}
+    
+    {{ totalPrice }}
+    {{ totalPrice }}
+  </div>
+
+  <script>
+    // watch: 監視プロパティ。
+    // └ 特定data変更時にのみ実行される。キャッシュされる。
+    // └ 非同期処理・Ajaxなどに向いている
+    // └ computedより複雑な処理をしたい場合に使う
+    let app = new Vue({
+      el: '#app',
+      data(){
+        return {
+          price: 1,
+          number: 1,
+          // app.reactiveTest.message = 'メッセージ' としてプロパティを追加してもリアクティブにならない
+          // つまり、get, setが作られていない
+          // Vue.set(app.reactiveTest, 'message2', 'get/setつきです') とするとリアクティブになる
+          // this.$set(this.reactiveTest, 'message',  'get/setつきです')という書き方でもリアクティブになる
+          reactiveTest: {
+            name: 'テスト'
+          },
+          books:[
+            {
+              id:1,
+              title:'タイトル1',
+              author:'著者名1',
+              url: 'https://google.com'
+            },
+            {
+              id:2,
+              title:'タイトル2',
+              author:'著者名2',
+              url: 'https://google.com'
+            },
+            {
+              id:3,
+              title:'タイトル3',
+              author:'著者名3',
+              url: 'https://google.com'
+            },
+          ]
+        }
+      },
+      methods: {
+        totalPriceMethods(){
+          console.log('methodsです')
+          return this.number * this.price
+        }
+      },
+      computed: {
+        // totalPrice(){
+        //   return this.number * this.price
+        // }
+        // アロー関数。引数が１つの場合は()を省略できる。また1行で書く場合は{}とreturnを省略できる。
+        // └ アロー関数の中のthisはwindowオブジェクト。なのでthisをappに書き換える必要がある。
+        totalPrice: app => app.number * app.price
+      },
+      watch: {
+        // app.booksの変更を監視する
+        // app.books[0].title = "タイトルを変更" で発火
+        books:{ // <= dataのkeyを指定
+          handler(){ // オブジェクトを監視するにはhandlerが必要
+            console.log('変更されました')
+          },
+          deep: true // オブジェクトの深いところまで監視する為のオプション
+        }
+      }
+    })
+
+    console.log(this); //windowオブジェクト
+
+    const obj = {
+      test: function(){
+        console.log(this) //オブジェクトの中 そのオブジェクト 
+      }
+    }
+
+    const objArrow = {
+      test: () => {
+        console.log(this) //windowオブジェクト
+      }
+    }
+
+  </script>
+</body>
+</html>
