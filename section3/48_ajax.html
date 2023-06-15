@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <button @click="getDogImage">画像を取得</button>
+    <img :src="dogImage">
+    <input type="text" v-model="watchTest">
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>  
+
+  <script>
+    let obj = {
+      a: 'テスト'
+    }
+  obj.b = 'あああ'
+  obj.c = test // 関数も格納できる
+
+  function test(){ console.log('テスト')}
+
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get'
+    }
+
+    let app = new Vue({
+      el:'#app',
+      data(){
+        return {
+          dogImage: '',
+          watchTest:''
+        }
+      },
+      methods:{
+        async getDogImage(){ // asyncをつけることで非同期処理を行う
+          // fetch(url, options) fetchAPIを使って非同期処理を行う
+          // 取得したobjectをresponse変数に格納
+          const response = await fetch(url, options) // awaitをつけることで非同期処理が終わるまで待つ
+          .then( response => response.json() ) // json()でobject形式に変換
+          //console.log(response.message)
+          this.dogImage = response.message
+        }
+      },
+      watch:{
+        watchTest(){ // watchTestの値が変更されたら実行される
+          this.watchDogImage()
+        }
+      },
+      created(){ // 画面が表示された時に実行される
+        this.getDogImage()
+        this.watchDogImage = _.debounce(this.getDogImage, 1000) // debounceで1秒間隔で実行
+
+      }
+    })
+  </script>
+  
+</body>
+</html>
