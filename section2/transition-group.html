@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <style>
+    .list-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+      transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active for below version 2.1.8 */ {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button @click="add">Add</button>
+    <button @click="remove">Remove</button>
+    <transition-group name="list" tag="p"> <!-- tagの属性はデフォルトでspanタグで描画されるのでpタグに変更 -->
+      <span v-for="item in items" :key="item" class="list-item"><!-- 中の要素はkey属性必須 -->
+        {{ item }}
+      </span>
+    </transition-group>
+  </div>
+  
+  <script>
+    let app = new Vue({
+      el: '#app',
+      data(){
+        return {
+          items: [1,2,3,4,5,6,7,8,9],
+          nextNum: 10
+      }},
+      methods: {
+        randomIndex() { // app.randomIndex()で呼び出せる。乱数を返す。
+          // Math.floor: 小数点の切り捨て
+          // Math.random: 0以上1未満の乱数を返す
+          return Math.floor(Math.random() * this.items.length)
+        },
+        add() { // itemsの中にnextNumを追加する
+          // splice: Vueのメソッド。配列の要素を追加・削除する。
+          this.items.splice(this.randomIndex(), 0, this.nextNum++)
+        },
+        remove() {
+          this.items.splice(this.randomIndex(), 1)
+        },
+      }
+    })
+  </script>
+</body>
+</html>
