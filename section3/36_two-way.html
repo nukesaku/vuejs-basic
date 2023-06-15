@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <!-- 
+      Two-way Data Binding(双方向データバインディング)
+      v-bind (:) と v-on (@) : 複雑な設定ができる
+      └ 書き方: :value = "test", @input="test = $event.target.value"
+      　└ @input: 入力を押されたタイミングで発火するイベント
+      └ 応用: $event.target.value以外を扱ったり
+    -->
+    <input :value="test"
+    @input="test = $event.target.value"> <!-- eventオブジェクトを使ってtargetのvalueを取得してtestにセットしている -->
+    {{ test }}
+    <br>
+    <input @input="checkEvent">
+    
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  
+  <script>
+    let app = new Vue({
+      el:'#app',
+      data(){
+        return {
+          test: 'あああ'
+        }
+      },
+      methods:{
+        checkEvent(e){
+          console.log(e)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
