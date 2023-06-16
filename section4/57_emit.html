@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .parent {
+      width:800px;
+      margin:0 auto;
+      border: 1px red solid;
+    }
+    .child{
+      width:30%;
+      margin:0 auto;
+      border: 1px blue solid;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="parent">
+    <!-- @custom-event: 子コンポーネントの$emitで指定した親イベント名 -->
+    <emit-test 
+      @custom-event="parentMethod"
+      class="child">
+    </emit-test>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  
+  <script>
+    let emitTest = {
+      template:`<div>
+      <button @click="childMethod">子側のボタン</button>
+      </div>`,
+      methods:{
+        childMethod(){
+          // イベントアップ
+          // this.$emit('親イベント名', '子の値')
+          this.$emit('custom-event', '子の値') // emit: 発射・放出
+        }
+      }
+    }
+
+    let app = new Vue({
+      el:'#app',
+      components:{
+        emitTest
+      },
+      data(){
+        return {
+        }
+      },
+      methods:{
+        parentMethod(e){ // e: 子コンポーネントから渡された値
+          console.log(e)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
