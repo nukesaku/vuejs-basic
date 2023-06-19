@@ -33,6 +33,6 @@ vue create test
 cd test
 npm run serve # 簡易サーバー起動
 ### 本番用にコンパイル
-npm run build
+npm run build # distディレクトリにデプロイ済みファイルが配置される
 ### リント
 npm run lint

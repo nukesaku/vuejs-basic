@@ -15,9 +15,12 @@
     :dataBooks="dataBooks"
     @custom-event="parentMethod"
      />
+  <button @click="testEventTruck()">EventTruck</button>
+  <input type="text" v-model="setupBooks[0].title">
 </template>
 <script>
 import { reactive } from 'vue'
+import EventBus from '@/lib/EventBus.js'
 
 export default{
   setup(){
@@ -32,8 +35,14 @@ export default{
         },
     ])
 
+    const testEventTruck = () => {
+      console.log('testEventTruckをemit...')
+      EventBus.emit('event-truck', setupBooks)
+    }
+
     return {
-      setupBooks
+      setupBooks,
+      testEventTruck
     }
   },
   data(){
