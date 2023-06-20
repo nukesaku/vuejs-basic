@@ -6,12 +6,14 @@
     <p>ref: {{ nameRef }}</p>
     <p>reactive: {{ book.title }}</p>
     <p>reactive: {{ book.author[0] }}</p>
-    <p>reactiveToRefs: {{ titleRef }}</p>
-    <p>reactiveToRefs: {{ authorRef[1] }}</p>
+    <p>reactiveToRefs: {{ titleToRef }}</p>
+    <p>reactiveToRefs: {{ authorToRef[1] }}</p>
     <button @click="btnClick">クリック</button>
     <p>computed: {{ totalPrice }}</p>
     <div>watch: <input v-model="search"></div>
     <div>watchEffect: <input v-model="searchEffect"></div>
+    <div>arrayToRef: {{ arrayToRef[0] }}</div>
+    <button @click="test()">test()</button>
   </div>
 </template>
 
@@ -31,9 +33,12 @@ export default {
     })
 
     const booktoRefs = reactive({
-      titleRef: 'タイトル2',
-      authorRef: ['大谷2', '伊藤2']
+      titleToRef: 'タイトル2',
+      authorToRef: ['大谷2', '伊藤2'],
+      numberToRef: 100
     })
+
+    const arrayToRef = []
 
     const item = reactive({
       price: 100,
@@ -79,7 +84,8 @@ export default {
       item,
       totalPrice,
       search,
-      searchEffect
+      searchEffect,
+      arrayToRef
     }
   },
   data(){
@@ -90,7 +96,15 @@ export default {
   },
   created(){
     console.log('created')
+    this.arrayToRef = [1,2,3]
+    this.numberToRef = 200
     console.log(this)
+  },
+  methods:{
+    test(){
+      this.arrayToRef = [4,5,6]
+      console.log('test')
+    }
   },
   mounted(){
     console.log('mounted')
